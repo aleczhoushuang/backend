@@ -1,0 +1,22 @@
+{
+  "name": "swagger-shotgun",
+  "version": "1.0.0",
+  "description": "shotgunapp ",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mysql",
+    "restapi"
+  ],
+  "author": "Alec ZHOU",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "mysql": "^2.18.1"
+  }
+}
