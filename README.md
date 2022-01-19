@@ -1,5 +1,7 @@
 Running the server
 
+Install MySQL and configure the database access in the file app/conf/db.conf.js
+
 Run the script create_tables.sql to create the needed tables in MySQL database.
  
 To start the backend server hosting the APIs, run:
