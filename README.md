@@ -1,5 +1,7 @@
 Running the server
 
+Run the script create_tables.sql to create the needed tables in MySQL database.
+ 
 To start the backend server hosting the APIs, run:
 
 npm install
