@@ -1,25 +1,23 @@
-Running the server
+# Start backend of the shotgun application
+The backend is built with Node.js, Framework Express, MySQL database and REST API.
+Follow the steps below to deploy the backend server:
+- install MySQL or use your existing mysql server instance
+- configure the database access in the file app/conf/db.conf.js
+- run the script create_tables.sql in MySQL to create the needed tables.
+- start the backend server hosting the APIs:
+  - npm install
+  - npm start
 
-Install MySQL and configure the database access in the file app/conf/db.conf.js
-
-Run the script create_tables.sql to create the needed tables in MySQL database.
- 
-To start the backend server hosting the APIs, run:
-
-npm install
-
-npm start
-
-api/swagger.yaml indlues API documentation
-
-Using Postman to test these API :
-
-POST api/shotgun => add new shotgun
-
-GET api/shotgun/:id => get shotgun by id
-
-PUT api/shotgun/:id update shotgun by id
-
-DELETE api/shotgun/:id remove shotgun by id
-
-GET api/shotgun?id=[123] find all shotgun whose id contains '123'
+# API 
+- api/swagger.yaml indlues API documentation. The following APIs are developed (can be tested with Postman):
+- add new shotgun
+  - POST api/shotgun
+- get shotgun by id  
+  - GET api/shotgun/:id
+- update shotgun by id  
+  - PUT api/shotgun/:id 
+- remove shotgun by id
+  - DELETE api/shotgun/:id
+- find all shotgun whose id contains '123'
+  - GET api/shotgun?id=[123] 
+  
