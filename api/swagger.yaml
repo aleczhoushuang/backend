@@ -126,6 +126,32 @@ paths:
         "404":
           description: "Shotgun not found"
       x-swagger-router-controller: "shotgun.controller"
+  /shotgun/shotlist/{username}:
+    get:
+      tags:
+      - "shotgun"
+      summary: "Find shotgun by username"
+      description: "Returns list of single shotgun"
+      operationId: "findListshotgun"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "username of shotgun"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Shotgun"
+        "400":
+          description: "Invalid username supplied"
+        "404":
+          description: "Shotgun List not found"
+      x-swagger-router-controller: "shotgun.controller"
   /event:
     post:
       tags:
@@ -427,6 +453,8 @@ definitions:
     properties:
       username:
         type: "string"
+      password:
+        type: "string"
       fullname:
         type: "string"
       photo:
@@ -437,6 +465,7 @@ definitions:
       name: "User"
     example:
       username: "username"
+      password: "1234"
       fullname: "fullname"
       photo: "photo"
       bio: "bio"    

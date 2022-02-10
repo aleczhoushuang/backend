@@ -8,6 +8,8 @@ module.exports = app => {
   
     // Retrieve a single user with username
     router.get("/:username", user.findOneuser);
+
+    router.get("/", user.findAll);
   
     // Update a user with username
     router.put("/:username", user.updateuser);

@@ -14,6 +14,7 @@ exports.createuser = (req, res) => {
   // Create a User
   const user = new User({
     username: req.body.username,
+    password: req.body.password,
     fullname: req.body.fullname,
     photo: req.body.photo,
     bio: req.body.bio
@@ -43,6 +44,19 @@ exports.findOneuser = (req, res) => {
         });
       }
     } else res.send(data);
+  });
+};
+
+exports.findAll = (req, res) => {
+  const username = req.query.username;
+
+  User.getAll(username, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving username."
+      });
+    else res.send(data);
   });
 };
 

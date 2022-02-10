@@ -3,6 +3,7 @@ const sql = require("./db.js");
 // constructor
 const User = function(user) {
   this.username = user.username;
+  this.password = user.password;
   this.fullname= user.fullname;
   this.photo = user.photo;
   this.bio = user.bio;
@@ -40,11 +41,30 @@ User.findByName = (username, result) => {
     });
 };
 
+User.getAll = (username, result) => {
+  let query = "SELECT * FROM user";
+
+  if (username) {
+    query += ` WHERE username LIKE '%${username}%'`;
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("username: ", res);
+    result(null, res);
+  });
+};
+
 
 User.updateByName = (username, user, result) => {
   sql.query(
-    "UPDATE user SET fullname = ?, photo = ?, bio = ? WHERE username = ?",
-    [user.fullname, user.photo, user.bio, username.substring(1) ],
+    "UPDATE user SET username = ?, password = ?, fullname = ?, photo = ?, bio = ? WHERE username = ?",
+    [user.username, user.password, user.password, user.photo, user.bio, username.substring(1) ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

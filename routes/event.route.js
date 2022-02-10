@@ -8,6 +8,8 @@ module.exports = app => {
   
     // Retrieve a single Event with id
     router.get("/:id", event.findOneevent);
+
+    router.get("/", event.findAll);
   
     // Update a Event with id
     router.put("/:id", event.updateevent);

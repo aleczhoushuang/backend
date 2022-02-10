@@ -84,5 +84,43 @@ Shotgun.remove = (id, result) => {
   });
 };
 
+Shotgun.getAll = (id, result) => {
+  let query = "SELECT * FROM shotgun";
+
+  if (id) {
+    query += ` WHERE id LIKE '%${id}%'`;
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("id: ", res);
+    result(null, res);
+  });
+};
+
+Shotgun.findByUsername = (username, result) => {
+  sql.query("SELECT shotgun.id,shotgun.nom_shotgun,shotgun.date_shotgun,shotgun.nb_place,shotgun.photo_shotgun FROM shotgun INNER JOIN event ON shotgun.id = event.id WHERE username = ?", username.substring(1), (err, res) => {
+      if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found shotgun: ", res[0]);
+      result(null, res[0]);
+      return;
+    }
+
+    // not found Shotgun with the id
+    result({ kind: "not_found" }, null);
+  });
+};
+
 
 module.exports = Shotgun;

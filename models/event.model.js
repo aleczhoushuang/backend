@@ -41,8 +41,27 @@ Event.findById = (id, result) => {
     });
 };
 
+Event.getAll = (id, result) => {
+  let query = "SELECT * FROM event";
 
-Event.updatebyId = (id, event, result) => {
+  if (id) {
+    query += ` WHERE id LIKE '%${id}%'`;
+  }
+
+  sql.query(query, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("id: ", res);
+    result(null, res);
+  });
+};
+
+
+Event.updateById = (id, event, result) => {
   sql.query(
     "UPDATE event SET username = ?, admin = ?, info = ?, temps_shot = ? WHERE id = ?",
     [event.username, event.admin, event.info, event.temps_shot, id.substring(1) ],

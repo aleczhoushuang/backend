@@ -73,6 +73,19 @@ exports.updateevent = (req, res) => {
   );
 };
 
+exports.findAll = (req, res) => {
+  const id = req.query.id;
+
+  Event.getAll(id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving events."
+      });
+    else res.send(data);
+  });
+};
+
 // Delete an Event with the specified id in the request
 exports.deleteevent = (req, res) => {
   Event.remove(req.params.id, (err, data) => {

@@ -15,8 +15,7 @@ exports.createshotgun = (req, res) => {
     nom_shotgun: req.body.nom_shotgun,
     date_shotgun: req.body.date_shotgun,
     nb_place: req.body.nb_place,
-    photo_shotgun: req.body.photo_shotgun,
-    duree_shotgun: req.body.duree_shotgun
+    photo_shotgun: req.body.photo_shotgun
   });
 
  // Save Shotgun in the database
@@ -91,49 +90,32 @@ Shotgun.remove(req.params.id, (err, data) => {
 });
 };
 
+exports.findAll = (req, res) => {
+  const id = req.query.id;
 
+  Shotgun.getAll(id, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving shotgun."
+      });
+    else res.send(data);
+  });
+};
 
-//module.exports.addShotgun = function addShotgun (req, res, next) {
-//  var body = req.swagger.params['body'].value;
-// Shotgun.addShotgun(body)
-//    .then(function (response) {
-//      utils.writeJson(res, response);
-//    })
-//    .catch(function (response) {
-//      utils.writeJson(res, response);
-//    });
-//};
-
-//module.exports.deleteShotgun = function deleteShotgun (req, res, next) {
-// var cleshotgun = req.swagger.params['cleshotgun'].value;
-//  Shotgun.deleteShotgun(cleshotgun)
-//    .then(function (response) {
-//      utils.writeJson(res, response);
-//    })
-//    .catch(function (response) {
-//      utils.writeJson(res, response);
-//    });
-//};
-
-//module.exports.getShotgunBycle = function getShotgunBycle (req, res, next) {
-//  var cleshotgun = req.swagger.params['cleshotgun'].value;
-//  Shotgun.getShotgunBycle(cleshotgun)
-//    .then(function (response) {
-//      utils.writeJson(res, response);
-//    })
-//    .catch(function (response) {
-//      utils.writeJson(res, response);
-//    });
-//};
-
-//module.exports.updateShotgun = function updateShotgun (req, res, next) {
-//  var cleshotgun = req.swagger.params['cleshotgun'].value;
-//  var body = req.swagger.params['body'].value;
-//  Shotgun.updateShotgun(cleshotgun,body)
-//    .then(function (response) {
-//      utils.writeJson(res, response);
-//    })
-//    .catch(function (response) {
-//      utils.writeJson(res, response);
-//    });
-//};
+// Find a single Shotgun with a username
+exports.findListshotgun = (req, res) => {
+  Shotgun.findByUsername(req.params.username, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Shotgun with username ${req.params.username}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Shotgun with username " + req.params.username
+        });
+      }
+    } else res.send(data);
+  });
+  };

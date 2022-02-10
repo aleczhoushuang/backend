@@ -24,8 +24,9 @@ CREATE TABLE IF NOT EXISTS `shotgun` (
 
 CREATE TABLE IF NOT EXISTS `user` (
   username varchar(255)  NOT NULL,
+  password varchar(255)  NOT NULL,
   fullname varchar(255) NOT NULL,
-  photo_shotgun varchar(255),
+  photo varchar(255),
   bio varchar(255)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
