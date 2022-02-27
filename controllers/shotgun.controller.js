@@ -15,6 +15,11 @@ exports.createshotgun = (req, res) => {
     nom_shotgun: req.body.nom_shotgun,
     date_shotgun: req.body.date_shotgun,
     nb_place: req.body.nb_place,
+    email: req.body.email,
+    age: req.body.age,
+    telephone: req.body.telephone,
+    genre: req.body.genre,
+    custom: req.body.custom,
     photo_shotgun: req.body.photo_shotgun
   });
 
@@ -45,6 +50,23 @@ Shotgun.findById(req.params.id, (err, data) => {
   } else res.send(data);
 });
 };
+
+// Find a single Shotgun with a name
+exports.findshotgun = (req, res) => {
+  Shotgun.findByNom(req.params.nom_shotgun, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Shotgun with id ${req.params.nom_shotgun}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Shotgun with id " + req.params.nom_shotgun
+        });
+      }
+    } else res.send(data);
+  });
+  };
 
 // Update a Shotgun by the id in the request
 exports.updateshotgun = (req, res) => {

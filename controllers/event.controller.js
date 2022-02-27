@@ -13,7 +13,11 @@ exports.createevent = (req, res) => {
     id: req.body.id,
     username: req.body.username,
     admin: req.body.admin,
-    info: req.body.info,
+    email: req.body.email,
+    age: req.body.age,
+    telephone: req.body.telephone,
+    genre: req.body.genre,
+    custom: req.body.custom,
     temps_shot: req.body.temps_shot
   });
 

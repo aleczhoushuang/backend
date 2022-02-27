@@ -9,6 +9,8 @@ module.exports = app => {
   // Retrieve a single Shotgun with id
   router.get("/:id", shotgun.findOneshotgun);
 
+  router.get("/:nom_shotgun", shotgun.findshotgun);
+
   // Update a Shotgun with id
   router.put("/:id", shotgun.updateshotgun);
 

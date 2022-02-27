@@ -5,7 +5,11 @@ const Event = function(event) {
   this.id = event.id;
   this.username= event.username;
   this.admin = event.admin;
-  this.info = event.info;
+  this.email = event.email;
+  this.age = event.age;
+  this.telephone = event.telephone;
+  this.genre = event.genre;
+  this.custom = event.custom;
   this.temps_shot = event.temps_shot;
 };
 
@@ -31,8 +35,8 @@ Event.findById = (id, result) => {
       }
   
       if (res.length) {
-        console.log("found event: ", res[0]);
-        result(null, res[0]);
+        console.log("found event: ", res);
+        result(null, res);
         return;
       }
   
@@ -63,8 +67,8 @@ Event.getAll = (id, result) => {
 
 Event.updateById = (id, event, result) => {
   sql.query(
-    "UPDATE event SET username = ?, admin = ?, info = ?, temps_shot = ? WHERE id = ?",
-    [event.username, event.admin, event.info, event.temps_shot, id.substring(1) ],
+    "UPDATE event SET username = ?, admin = ?, email=?, age=?, telephone=?, genre=?, custom=?, temps_shot = ? WHERE id = ?",
+    [event.username, event.admin, event.temps_shot, event.email, event.age, event.telephone, event.genre, event.custom, id.substring(1) ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
