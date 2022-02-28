@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `shotgun` (
   age BOOLEAN DEFAULT false,
   telephone BOOLEAN DEFAULT false,
   genre BOOLEAN DEFAULT false,
-  custom BOOLEAN DEFAULT false,
+  custom BOOLEAN DEFAULT false
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `user` (

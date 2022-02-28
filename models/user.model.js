@@ -67,7 +67,7 @@ User.getAll = (username, result) => {
 
 User.updateByName = (username, user, result) => {
   sql.query(
-    "UPDATE user SET username = ?, password = ?, fullname = ?, photo = ?, bio = ?, age=?, telephone=?, genre=? lieu=? WHERE username = ?",
+    "UPDATE user SET username = ?, password = ?, fullname = ?, photo = ?, bio = ?, age=?, telephone=?, genre=?, lieu=? WHERE username = ?",
     [user.username, user.password, user.password, user.photo, user.bio, user.age, user.telephone, user.genre, user.lieu, username.substring(1) ],
     (err, res) => {
       if (err) {
