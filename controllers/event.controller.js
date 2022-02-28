@@ -13,7 +13,6 @@ exports.createevent = (req, res) => {
     id: req.body.id,
     username: req.body.username,
     admin: req.body.admin,
-    email: req.body.email,
     age: req.body.age,
     telephone: req.body.telephone,
     genre: req.body.genre,

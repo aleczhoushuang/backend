@@ -5,7 +5,6 @@ const Event = function(event) {
   this.id = event.id;
   this.username= event.username;
   this.admin = event.admin;
-  this.email = event.email;
   this.age = event.age;
   this.telephone = event.telephone;
   this.genre = event.genre;
@@ -67,8 +66,8 @@ Event.getAll = (id, result) => {
 
 Event.updateById = (id, event, result) => {
   sql.query(
-    "UPDATE event SET username = ?, admin = ?, email=?, age=?, telephone=?, genre=?, custom=?, temps_shot = ? WHERE id = ?",
-    [event.username, event.admin, event.temps_shot, event.email, event.age, event.telephone, event.genre, event.custom, id.substring(1) ],
+    "UPDATE event SET username = ?, admin = ?, age=?, telephone=?, genre=?, custom=?, temps_shot = ? WHERE id = ?",
+    [event.username, event.admin, event.temps_shot, event.age, event.telephone, event.genre, event.custom, id.substring(1) ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

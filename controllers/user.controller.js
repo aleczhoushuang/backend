@@ -18,11 +18,10 @@ exports.createuser = (req, res) => {
     fullname: req.body.fullname,
     photo: req.body.photo,
     bio: req.body.bio,
-    email: req.body.email,
     age: req.body.age,
     telephone: req.body.telephone,
     genre: req.body.genre,
-    custom: req.body.custom
+    lieu: req.body.lieu
   });   
   // Save User in the database
   User.create(user, (err, data) => {

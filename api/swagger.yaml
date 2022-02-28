@@ -487,8 +487,6 @@ definitions:
         type: "string"
       bio:
         type: "string"
-      email:
-        type: 'string'
       age:
         type: 'integer'
         format: 'int64'
@@ -497,7 +495,7 @@ definitions:
         format: 'int64'
       genre:
         type: 'string'
-      custom:
+      lieu:
         type: 'string'
     xml:
       name: "User"
@@ -507,11 +505,10 @@ definitions:
       fullname: "fullname"
       photo: "photo"
       bio: "bio"    
-      email: email,
-      age: 18,
-      telephone: 0695954346,
-      genre: M,
-      custom: custom
+      age: "18"
+      telephone: "0695954346"
+      genre: "M"
+      lieu: "albi"
   Shotgun:
     type: "object"
     required:
@@ -531,17 +528,15 @@ definitions:
       photo_shotgun:
         type: "string"   
       email:
-        type: 'string'
+        type: "boolean"
       age:
-        type: 'integer'
-        format: 'int64'
+        type: "boolean"
       telephone:
-        type: 'integer'
-        format: 'int64'
+        type: "boolean"
       genre:
-        type: 'string'
+        type: "boolean"
       custom:
-        type: 'string'
+        type: "boolean"
     xml:
       name: "Shotgun"
     example:
@@ -551,11 +546,11 @@ definitions:
       nb_place: 2
       photo_shotgun: "photo"
       duree_shotgun: 10
-      email: email,
-      age: 18,
-      telephone: 0695954346,
-      genre: M,
-      custom: custom
+      email: "false"
+      age: "false"
+      telephone: "false"
+      genre: "false"
+      custom: "false"
   Event:
     type: "object"
     properties:
@@ -569,8 +564,6 @@ definitions:
       temps_shot:
         type: "integer"
         format: "int64"
-      email:
-        type: 'string'
       age:
         type: 'integer'
         format: 'int64'
@@ -588,11 +581,10 @@ definitions:
       username: "username"
       admin: "true"
       temps_shot: 6
-      email: email,
-      age: 18,
-      telephone: 0695954346,
-      genre: M,
-      custom: custom
+      age: 18
+      telephone: "0695954346"
+      genre: "M"
+      custom: "custom"
       
   Game:
     type: "object"

@@ -7,11 +7,10 @@ const User = function(user) {
   this.fullname= user.fullname;
   this.photo = user.photo;
   this.bio = user.bio;
-  this.email = user.email;
   this.age = user.age;
   this.telephone = user.telephone;
   this.genre = user.genre;
-  this.custom = user.custom
+  this.lieu = user.lieu
 };
 
 User.create = (newUser, result) => {
@@ -68,8 +67,8 @@ User.getAll = (username, result) => {
 
 User.updateByName = (username, user, result) => {
   sql.query(
-    "UPDATE user SET username = ?, password = ?, fullname = ?, photo = ?, bio = ?, email=?, age=?, telephone=?, genre=?, custom=? WHERE username = ?",
-    [user.username, user.password, user.password, user.photo, user.bio, user.email, user.age, user.telephone, user.genre, user.custom, username.substring(1) ],
+    "UPDATE user SET username = ?, password = ?, fullname = ?, photo = ?, bio = ?, age=?, telephone=?, genre=? lieu=? WHERE username = ?",
+    [user.username, user.password, user.password, user.photo, user.bio, user.age, user.telephone, user.genre, user.lieu, username.substring(1) ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
