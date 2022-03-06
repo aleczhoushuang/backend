@@ -7,17 +7,17 @@ module.exports = app => {
   router.post("/", shotgun.createshotgun);
 
   // Retrieve a single Shotgun with id
-  router.get("/:id", shotgun.findOneshotgun);
+  router.get("/:cle", shotgun.findOneshotgun);
 
-  router.get("/:nom_shotgun", shotgun.findshotgun);
+  router.get("/shotlist/nom/:nom_shotgun", shotgun.findshotgun);
 
   // Update a Shotgun with id
-  router.put("/:id", shotgun.updateshotgun);
+  router.put("/:cle", shotgun.updateshotgun);
 
   router.get("/", shotgun.findAll);
 
   // Delete a Shotgun with id
-  router.delete("/:id", shotgun.deleteshotgun);
+  router.delete("/:cle", shotgun.deleteshotgun);
 
    // Retrieve a single Shotgun with id
    router.get("/shotlist/:username", shotgun.findListshotgun);

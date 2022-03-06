@@ -2,6 +2,7 @@ const sql = require("./db.js");
 
 // constructor
 const User = function(user) {
+  this.id_user = user.id_user;
   this.username = user.username;
   this.password = user.password;
   this.fullname= user.fullname;
@@ -68,7 +69,7 @@ User.getAll = (username, result) => {
 User.updateByName = (username, user, result) => {
   sql.query(
     "UPDATE user SET username = ?, password = ?, fullname = ?, photo = ?, bio = ?, age=?, telephone=?, genre=?, lieu=? WHERE username = ?",
-    [user.username, user.password, user.password, user.photo, user.bio, user.age, user.telephone, user.genre, user.lieu, username.substring(1) ],
+    [user.username, user.password, user.fullname, user.photo, user.bio, user.age, user.telephone, user.genre, user.lieu, username.substring(1) ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

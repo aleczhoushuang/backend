@@ -13,6 +13,7 @@ exports.createuser = (req, res) => {
 
   // Create a User
   const user = new User({
+    id_user : req.body.id_user,
     username: req.body.username,
     password: req.body.password,
     fullname: req.body.fullname,

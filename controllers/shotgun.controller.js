@@ -11,16 +11,17 @@ exports.createshotgun = (req, res) => {
 
   // Create a Shotgun
   const shotgun = new Shotgun({
-    id: req.body.id,
+    cle: req.body.cle,
     nom_shotgun: req.body.nom_shotgun,
     date_shotgun: req.body.date_shotgun,
     nb_place: req.body.nb_place,
+    photo_shotgun: req.body.photo_shotgun,
     email: req.body.email,
     age: req.body.age,
     telephone: req.body.telephone,
     genre: req.body.genre,
     custom: req.body.custom,
-    photo_shotgun: req.body.photo_shotgun
+    custom_text: req.body.custom_text
   });
 
  // Save Shotgun in the database
@@ -34,17 +35,17 @@ exports.createshotgun = (req, res) => {
 });
 };
 
-// Find a single Shotgun with an id
+// Find a single Shotgun with a cle
 exports.findOneshotgun = (req, res) => {
-Shotgun.findById(req.params.id, (err, data) => {
+Shotgun.findByCle(req.params.cle, (err, data) => {
   if (err) {
     if (err.kind === "not_found") {
       res.status(404).send({
-        message: `Not found Shotgun with id ${req.params.id}.`
+        message: `Not found Shotgun with cle ${req.params.cle}.`
       });
     } else {
       res.status(500).send({
-        message: "Error retrieving Shotgun with id " + req.params.id
+        message: "Error retrieving Shotgun with cle " + req.params.cle
       });
     }
   } else res.send(data);
@@ -57,18 +58,18 @@ exports.findshotgun = (req, res) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Shotgun with id ${req.params.nom_shotgun}.`
+          message: `Not found Shotgun with nom ${req.params.nom_shotgun}.`
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Shotgun with id " + req.params.nom_shotgun
+          message: "Error retrieving Shotgun with nom " + req.params.nom_shotgun
         });
       }
     } else res.send(data);
   });
   };
 
-// Update a Shotgun by the id in the request
+// Update a Shotgun by the cle in the request
 exports.updateshotgun = (req, res) => {
 // Validate Request
 if (!req.body) {
@@ -76,18 +77,18 @@ if (!req.body) {
     message: "Content can not be empty!"
   });
 }
-Shotgun.updateById(
-  req.params.id,
+Shotgun.updateByCle(
+  req.params.cle,
   new Shotgun(req.body),
   (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Shotgun with id ${req.params.id}.`
+          message: `Not found Shotgun with cle ${req.params.cle}.`
         });
       } else {
         res.status(500).send({
-          message: "Error updating Shotgun with id " + req.params.id
+          message: "Error updating Shotgun with cle " + req.params.cle
         });
       }
     } else res.send(data);
@@ -95,17 +96,17 @@ Shotgun.updateById(
 );
 };
 
-// Delete a Shotgun with the specified id in the request
+// Delete a Shotgun with the specified cle in the request
 exports.deleteshotgun = (req, res) => {
-Shotgun.remove(req.params.id, (err, data) => {
+Shotgun.remove(req.params.cle, (err, data) => {
   if (err) {
     if (err.kind === "not_found") {
       res.status(404).send({
-        message: `Not found Shotgun with id ${req.params.id}.`
+        message: `Not found Shotgun with cle ${req.params.cle}.`
       });
     } else {
       res.status(500).send({
-        message: "Could not delete Shotgun with id " + req.params.id
+        message: "Could not delete Shotgun with cle " + req.params.cle
       });
     }
   } else res.send({ message: `Shotgun was deleted successfully!` });
@@ -113,9 +114,9 @@ Shotgun.remove(req.params.id, (err, data) => {
 };
 
 exports.findAll = (req, res) => {
-  const id = req.query.id;
+  const cle = req.query.cle;
 
-  Shotgun.getAll(id, (err, data) => {
+  Shotgun.getAll(cle, (err, data) => {
     if (err)
       res.status(500).send({
         message:

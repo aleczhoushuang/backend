@@ -2,7 +2,7 @@ const sql = require("./db.js");
 
 // constructor
 const Game = function(game) {
-  this.id = game.id;
+  this.id_game = game.id_game;
   this.username= game.username;
   this.admin = game.admin;
   this.temps_jeu = game.temps_jeu;
@@ -17,13 +17,13 @@ Game.create = (newGame, result) => {
       return;
     }
 
-    console.log("created Game: ", { id: res.insertId, ...newGame });
-    result(null, { id: res.insertId, ...newGame });
+    console.log("created Game: ", { id_game: res.insertId_game, ...newGame });
+    result(null, { id_game: res.insertId_game, ...newGame });
   });
 };
 
-Game.findById = (id, result) => {
-    sql.query("SELECT * FROM game WHERE id = ?", id.substring(1), (err, res) => {
+Game.findById = (id_game, result) => {
+    sql.query("SELECT * FROM game WHERE id_game = ?", id_game.substring(1), (err, res) => {
         if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -31,8 +31,8 @@ Game.findById = (id, result) => {
       }
   
       if (res.length) {
-        console.log("found game: ", res[0]);
-        result(null, res[0]);
+        console.log("found game: ", res);
+        result(null, res);
         return;
       }
   
@@ -42,10 +42,10 @@ Game.findById = (id, result) => {
 };
 
 
-Game.updateById = (id, game, result) => {
+Game.updateById = (id_game, game, result) => {
   sql.query(
-    "UPDATE game SET username = ?, admin = ?, temps_jeu = ?, date_go = ? WHERE id = ?",
-    [game.username, game.admin, game.temps_jeu, game.date_go, id.substring(1) ],
+    "UPDATE game SET username = ?, admin = ?, temps_jeu = ?, date_go = ? WHERE id_game = ?",
+    [game.username, game.admin, game.temps_jeu, game.date_go, id_game.substring(1) ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -59,14 +59,14 @@ Game.updateById = (id, game, result) => {
         return;
       }
 
-      console.log("updated game: ", { id: id, ...game });
-      result(null, { id: id, ...game });
+      console.log("updated game: ", { id_game: id_game, ...game });
+      result(null, { id_game: id_game, ...game });
     }
   );
 };
 
-Game.remove = (id, result) => {
-  sql.query("DELETE FROM game WHERE id = ?", id.substring(1), (err, res) => {
+Game.remove = (id_game, result) => {
+  sql.query("DELETE FROM game WHERE id_game = ?", id_game.substring(1), (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -79,7 +79,7 @@ Game.remove = (id, result) => {
       return;
     }
 
-    console.log("deleted game with id: ", id.substring(1));
+    console.log("deleted game with id_game: ", id_game.substring(1));
     result(null, res);
   });
 };

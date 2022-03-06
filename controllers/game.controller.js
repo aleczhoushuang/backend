@@ -13,7 +13,7 @@ exports.creategame = (req, res) => {
 
   // Create a Game
   const game = new Game({
-    id: req.body.id,
+    id_game: req.body.id_game,
     username: req.body.username,
     admin: req.body.admin,
     temps_jeu: req.body.temps_jeu,
@@ -31,17 +31,17 @@ exports.creategame = (req, res) => {
   });
 };
 
-// Find a single Game with an id
+// Find a single Game with an id_game
 exports.findOnegame = (req, res) => {
-  Game.findById(req.params.id, (err, data) => {
+  Game.findById(req.params.id_game, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Game with id ${req.params.id}.`
+          message: `Not found Game with id ${req.params.id_game}.`
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving Game with id " + req.params.id
+          message: "Error retrieving Game with id " + req.params.id_game
         });
       }
     } else res.send(data);
@@ -58,17 +58,17 @@ exports.updategame = (req, res) => {
     });
   }
   Game.updateById(
-    req.params.id,
+    req.params.id_game,
     new Game(req.body),
     (err, data) => {
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
-            message: `Not found Game with id ${req.params.id}.`
+            message: `Not found Game with id ${req.params.id_game}.`
           });
         } else {
           res.status(500).send({
-            message: "Error updating Game with id " + req.params.id
+            message: "Error updating Game with id " + req.params.id_game
           });
         }
       } else res.send(data);
@@ -78,15 +78,15 @@ exports.updategame = (req, res) => {
 
 // Delete a Game with the specified id in the request
 exports.deletegame = (req, res) => {
-  Game.remove(req.params.id, (err, data) => {
+  Game.remove(req.params.id_game, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Game with id ${req.params.id}.`
+          message: `Not found Game with id ${req.params.id_game}.`
         });
       } else {
         res.status(500).send({
-          message: "Could not delete Game with id " + req.params.id
+          message: "Could not delete Game with id " + req.params.id_game
         });
       }
     } else res.send({ message: `Game was deleted successfully!` });

@@ -2,7 +2,10 @@ const sql = require("./db.js");
 
 // constructor
 const Event = function(event) {
-  this.id = event.id;
+  this.id_event = event.id_event;
+  this.id_game = event.id_game;
+  this.id_user = event.id_user;
+  this.cle = event.cle;
   this.username= event.username;
   this.admin = event.admin;
   this.age = event.age;
@@ -10,6 +13,7 @@ const Event = function(event) {
   this.genre = event.genre;
   this.custom = event.custom;
   this.temps_shot = event.temps_shot;
+  this.visible = event.visible
 };
 
 Event.create = (newEvent, result) => {
@@ -20,13 +24,13 @@ Event.create = (newEvent, result) => {
       return;
     }
 
-    console.log("created Event: ", { id: res.insertId, ...newEvent });
-    result(null, { id: res.insertId, ...newEvent });
+    console.log("created Event: ", { cle: res.insertCle, ...newEvent });
+    result(null, { cle: res.insertCle, ...newEvent });
   });
 };
 
-Event.findById = (id, result) => {
-    sql.query("SELECT * FROM event WHERE id = ?", id.substring(1), (err, res) => {
+Event.findByCle = (cle, result) => {
+    sql.query("SELECT * FROM event WHERE cle = ?", cle.substring(1), (err, res) => {
         if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -39,16 +43,54 @@ Event.findById = (id, result) => {
         return;
       }
   
-      // not found Event with the id
+      // not found Event with the cle
       result({ kind: "not_found" }, null);
     });
 };
 
-Event.getAll = (id, result) => {
+Event.findByUsername = (username, result) => {
+  sql.query("SELECT * FROM event WHERE username = ?", username.substring(1), (err, res) => {
+      if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found event: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found Event with the username
+    result({ kind: "not_found" }, null);
+  });
+};
+
+Event.findByUsername_cle = (username, cle, result) => {
+  sql.query("SELECT * FROM event WHERE username = ? AND cle=?", username.substring(1), cle.substring(1),(err, res) => {
+      if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found event: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found Event with the username
+    result({ kind: "not_found" }, null);
+  });
+};
+
+Event.getAll = (cle, result) => {
   let query = "SELECT * FROM event";
 
-  if (id) {
-    query += ` WHERE id LIKE '%${id}%'`;
+  if (cle) {
+    query += ` WHERE cle LIKE '%${cle}%'`;
   }
 
   sql.query(query, (err, res) => {
@@ -58,16 +100,15 @@ Event.getAll = (id, result) => {
       return;
     }
 
-    console.log("id: ", res);
+    console.log("cle: ", res);
     result(null, res);
   });
 };
 
-
-Event.updateById = (id, event, result) => {
+Event.updateByCle = (cle, event, result) => {
   sql.query(
-    "UPDATE event SET username = ?, admin = ?, age=?, telephone=?, genre=?, custom=?, temps_shot = ? WHERE id = ?",
-    [event.username, event.admin, event.temps_shot, event.age, event.telephone, event.genre, event.custom, id.substring(1) ],
+    "UPDATE event SET username = ?, admin = ?, age=?, telephone=?, genre=?, custom=?, temps_shot = ?, visible = ? WHERE cle = ?",
+    [event.username, event.admin, event.age,  event.telephone, event.genre, event.custom, event.temps_shot, event.visible, cle.substring(1) ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -76,19 +117,43 @@ Event.updateById = (id, event, result) => {
       }
 
       if (res.affectedRows == 0) {
-        // not found Event with the id
+        // not found Event with the cle
         result({ kind: "not_found" }, null);
         return;
       }
 
-      console.log("updated event: ", { id: id, ...event });
-      result(null, { id: id, ...event });
+      console.log("updated event: ", { cle: cle, ...event });
+      result(null, { cle: cle, ...event });
     }
   );
 };
 
-Event.remove = (id, result) => {
-  sql.query("DELETE FROM event WHERE id = ?", id.substring(1), (err, res) => {
+Event.updateByUsername_cle = (username, cle, event, result) => {
+  sql.query(
+    "UPDATE event SET username = ?, admin = ?, age=?, telephone=?, genre=?, custom=?, temps_shot = ?, visible = ? WHERE cle = ? AND username=?",
+    [event.username, event.admin, event.age,  event.telephone, event.genre, event.custom, event.temps_shot, event.visible, cle.substring(1), username.substring(1) ],
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        // not found Event with the cle
+        result({ kind: "not_found" }, null);
+        return;
+      }
+
+      console.log("updated event: ", { cle: cle, ...event });
+      result(null, { cle: cle, ...event });
+    }
+  );
+};
+
+
+Event.remove = (cle, result) => {
+  sql.query("DELETE FROM event WHERE cle = ?", cle.substring(1), (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -96,12 +161,31 @@ Event.remove = (id, result) => {
     }
 
     if (res.affectedRows == 0) {
-      // not found Event with the id
+      // not found Event with the cle
       result({ kind: "not_found" }, null);
       return;
     }
 
-    console.log("deleted event with id: ", id.substring(1));
+    console.log("deleted event with cle: ", cle.substring(1));
+    result(null, res);
+  });
+};
+
+Event.removeunique = (username, cle, result) => {
+  sql.query("DELETE FROM event WHERE cle = ? AND username=?", cle.substring(1), username.substring(1), (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      // not found Event with the cle
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("deleted event with cle: ", cle.substring(1), "and username: ", username.substring(1));
     result(null, res);
   });
 };

@@ -2,7 +2,7 @@ const sql = require("./db.js");
 
 // constructor
 const Shotgun = function(shotgun) {
-  this.id = shotgun.id;
+  this.cle = shotgun.cle;
   this.nom_shotgun= shotgun.nom_shotgun;
   this.date_shotgun = shotgun.date_shotgun;
   this.nb_place = shotgun.nb_place;
@@ -11,7 +11,8 @@ const Shotgun = function(shotgun) {
   this.age = shotgun.age;
   this.telephone = shotgun.telephone;
   this.genre = shotgun.genre;
-  this.custom = shotgun.custom
+  this.custom = shotgun.custom;
+  this.custom_text = shotgun.custom_text
 };
 
 
@@ -39,13 +40,13 @@ Shotgun.create = (newShotgun, result) => {
       return;
     }
 
-    console.log("created Shotgun: ", { id: res.insertId, ...newShotgun });
-    result(null, { id: res.insertId, ...newShotgun });
+    console.log("created Shotgun: ", { cle: res.insertCle, ...newShotgun });
+    result(null, { cle: res.insertCle, ...newShotgun });
   });
 };
 
-Shotgun.findById = (id, result) => {
-    sql.query("SELECT * FROM shotgun WHERE id = ?", id.substring(1), (err, res) => {
+Shotgun.findByCle = (cle, result) => {
+    sql.query("SELECT * FROM shotgun WHERE cle = ?", cle.substring(1), (err, res) => {
         if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -53,12 +54,12 @@ Shotgun.findById = (id, result) => {
       }
   
       if (res.length) {
-        console.log("found shotgun: ", res[0]);
-        result(null, res[0]);
+        console.log("found shotgun: ", res);
+        result(null, res);
         return;
       }
   
-      // not found Shotgun with the id
+      // not found Shotgun with the cle
       result({ kind: "not_found" }, null);
     });
 };
@@ -72,8 +73,8 @@ Shotgun.findByNom = (nom_shotgun, result) => {
     }
 
     if (res.length) {
-      console.log("found shotgun: ", res[0]);
-      result(null, res[0]);
+      console.log("found shotgun: ", res);
+      result(null, res);
       return;
     }
 
@@ -83,10 +84,10 @@ Shotgun.findByNom = (nom_shotgun, result) => {
 };
 
 
-Shotgun.updateById = (id, shotgun, result) => {
+Shotgun.updateByCle = (cle, shotgun, result) => {
   sql.query(
-    "UPDATE shotgun SET nom_shotgun = ?, date_shotgun = ?, nb_place = ?, photo_shotgun = ?, email=?, age=?, telephone=?, genre=?, custom=? WHERE id = ?",
-    [shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, id.substring(1) ],
+    "UPDATE shotgun SET nom_shotgun = ?, date_shotgun = ?, nb_place = ?, photo_shotgun = ?, email=?, age=?, telephone=?, genre=?, custom=?, custom_text=? WHERE cle = ?",
+    [shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text, cle.substring(1) ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -95,19 +96,19 @@ Shotgun.updateById = (id, shotgun, result) => {
       }
 
       if (res.affectedRows == 0) {
-        // not found Shotgun with the id
+        // not found Shotgun with the cle
         result({ kind: "not_found" }, null);
         return;
       }
 
-      console.log("updated shotgun: ", { id: id, ...shotgun });
-      result(null, { id: id, ...shotgun });
+      console.log("updated shotgun: ", { cle: cle, ...shotgun });
+      result(null, { cle: cle, ...shotgun });
     }
   );
 };
 
-Shotgun.remove = (id, result) => {
-  sql.query("DELETE FROM shotgun WHERE id = ?", id.substring(1), (err, res) => {
+Shotgun.remove = (cle, result) => {
+  sql.query("DELETE FROM shotgun WHERE cle = ?", cle.substring(1), (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -115,21 +116,21 @@ Shotgun.remove = (id, result) => {
     }
 
     if (res.affectedRows == 0) {
-      // not found Shotgun with the id
+      // not found Shotgun with the cle
       result({ kind: "not_found" }, null);
       return;
     }
 
-    console.log("deleted shotgun with id: ", id.substring(1));
+    console.log("deleted shotgun with cle: ", cle.substring(1));
     result(null, res);
   });
 };
 
-Shotgun.getAll = (id, result) => {
+Shotgun.getAll = (cle, result) => {
   let query = "SELECT * FROM shotgun";
 
-  if (id) {
-    query += ` WHERE id LIKE '%${id}%'`;
+  if (cle) {
+    query += ` WHERE cle LIKE '%${cle}%'`;
   }
 
   sql.query(query, (err, res) => {
@@ -139,13 +140,13 @@ Shotgun.getAll = (id, result) => {
       return;
     }
 
-    console.log("id: ", res);
+    console.log("cle: ", res);
     result(null, res);
   });
 };
 
 Shotgun.findByUsername = (username, result) => {
-  sql.query("SELECT shotgun.id,shotgun.nom_shotgun,shotgun.date_shotgun,shotgun.nb_place,shotgun.photo_shotgun FROM shotgun INNER JOIN event ON shotgun.id = event.id WHERE username = ?", username.substring(1), (err, res) => {
+  sql.query("SELECT * FROM shotgun INNER JOIN event ON shotgun.cle = event.cle WHERE username = ? AND visible = 1", username.substring(1), (err, res) => {
       if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -158,7 +159,7 @@ Shotgun.findByUsername = (username, result) => {
       return;
     }
 
-    // not found Shotgun with the id
+    // not found Shotgun with the username
     result({ kind: "not_found" }, null);
   });
 };
