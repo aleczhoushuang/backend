@@ -11,19 +11,19 @@ module.exports = app => {
 
     router.get("/user/:username", event.findevent);
 
-    router.get("/:user/:username/cle/:cle", event.finduniqueevent);
+    router.get("/user/user_cle/:username/:cle", event.finduniqueevent);
 
     router.get("/", event.findAll);
   
     // Update a Event with id
     router.put("/:cle", event.updateevent);
 
-    router.put("/:user/:username/cle/:cle", event.updateuniqueevent);
+    router.put("/user/user_cle/:username/:cle", event.updateuniqueevent);
   
     // Delete a Event with id
     router.delete("/:cle", event.deleteevent);
 
-    router.delete("/:user/:username/cle/:cle", event.deleteuniqueevent);
+    router.delete("/user/user_cle/:username/:cle", event.deleteuniqueevent);
   
     app.use('/api/event', router);
   };

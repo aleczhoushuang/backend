@@ -12,6 +12,7 @@ exports.createshotgun = (req, res) => {
   // Create a Shotgun
   const shotgun = new Shotgun({
     cle: req.body.cle,
+    id_user: req.body.id_user,
     nom_shotgun: req.body.nom_shotgun,
     date_shotgun: req.body.date_shotgun,
     nb_place: req.body.nb_place,
@@ -21,7 +22,8 @@ exports.createshotgun = (req, res) => {
     telephone: req.body.telephone,
     genre: req.body.genre,
     custom: req.body.custom,
-    custom_text: req.body.custom_text
+    custom_text: req.body.custom_text,
+    username: req.body.username
   });
 
  // Save Shotgun in the database
@@ -68,6 +70,22 @@ exports.findshotgun = (req, res) => {
     } else res.send(data);
   });
   };
+
+  exports.findnextshotgun = (req, res) => {
+    Shotgun.findByNext(req.params.username, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found next Shotgun of ${req.params.username}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving next Shotgun nom " + req.params.username
+          });
+        }
+      } else res.send(data);
+    });
+    };
 
 // Update a Shotgun by the cle in the request
 exports.updateshotgun = (req, res) => {

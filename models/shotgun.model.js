@@ -3,6 +3,7 @@ const sql = require("./db.js");
 // constructor
 const Shotgun = function(shotgun) {
   this.cle = shotgun.cle;
+  this.id_user = shotgun.id_user;
   this.nom_shotgun= shotgun.nom_shotgun;
   this.date_shotgun = shotgun.date_shotgun;
   this.nb_place = shotgun.nb_place;
@@ -12,7 +13,8 @@ const Shotgun = function(shotgun) {
   this.telephone = shotgun.telephone;
   this.genre = shotgun.genre;
   this.custom = shotgun.custom;
-  this.custom_text = shotgun.custom_text
+  this.custom_text = shotgun.custom_text;
+  this.username = shotgun.username
 };
 
 
@@ -86,8 +88,8 @@ Shotgun.findByNom = (nom_shotgun, result) => {
 
 Shotgun.updateByCle = (cle, shotgun, result) => {
   sql.query(
-    "UPDATE shotgun SET nom_shotgun = ?, date_shotgun = ?, nb_place = ?, photo_shotgun = ?, email=?, age=?, telephone=?, genre=?, custom=?, custom_text=? WHERE cle = ?",
-    [shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text, cle.substring(1) ],
+    "UPDATE shotgun SET nom_shotgun = ?, date_shotgun = ?, nb_place = ?, photo_shotgun = ?, email=?, age=?, telephone=?, genre=?, custom=?, custom_text=?, username=? WHERE cle = ?",
+    [shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text, shotgun.username, cle.substring(1) ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -146,7 +148,7 @@ Shotgun.getAll = (cle, result) => {
 };
 
 Shotgun.findByUsername = (username, result) => {
-  sql.query("SELECT * FROM shotgun INNER JOIN event ON shotgun.cle = event.cle WHERE username = ? AND visible = 1", username.substring(1), (err, res) => {
+  sql.query("SELECT * FROM shotgun INNER JOIN event ON shotgun.cle = event.cle WHERE event.username = ? AND visible = 1", username.substring(1), (err, res) => {
       if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -156,6 +158,25 @@ Shotgun.findByUsername = (username, result) => {
     if (res.length) {
       console.log("found shotgun: ", res);
       result(null, res);
+      return;
+    }
+
+    // not found Shotgun with the username
+    result({ kind: "not_found" }, null);
+  });
+};
+
+Shotgun.findByNext = (username, result) => {
+  sql.query("SELECT * FROM shotgun JOIN event ON shotgun.cle = event.cle WHERE event.username=? AND DATEDIFF(shotgun.date_shotgun, NOW()) > 0 ORDER BY date_shotgun", username.substring(1), (err, res) => {
+      if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found shotgun: ", res[0]);
+      result(null, res[0]);
       return;
     }
 

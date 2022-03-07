@@ -1,18 +1,3 @@
-CREATE TABLE IF NOT EXISTS shotgun (
-  cle INT NOT NULL AUTO_INCREMENT,
-  nom_shotgun varchar(255)  NOT NULL,
-	date_shotgun varchar(255) NOT NULL,
-	nb_place int(11) NOT NULL,
-	photo_shotgun TEXT,
-	email BOOLEAN DEFAULT false,
-	age BOOLEAN DEFAULT false,
-	telephone BOOLEAN DEFAULT false,
-	genre BOOLEAN DEFAULT false,
-	custom BOOLEAN DEFAULT false,
-  custom_text varchar(1000),
-  PRIMARY KEY(cle)
-)   ENGINE=INNODB;
-
 CREATE TABLE IF NOT EXISTS user (
   id_user INT NOT NULL AUTO_INCREMENT,
   username varchar(255),
@@ -24,23 +9,52 @@ CREATE TABLE IF NOT EXISTS user (
   telephone int(10),
   genre varchar(255),
   lieu varchar(255),
-  PRIMARY KEY(id_user)
+  UNIQUE(username),
+  PRIMARY KEY(id_user,username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS shotgun (
+  cle INT NOT NULL AUTO_INCREMENT,
+  id_user INT NOT NULL,
+  nom_shotgun varchar(255)  NOT NULL,
+	date_shotgun varchar(255) NOT NULL,
+	nb_place int(11) NOT NULL,
+	photo_shotgun TEXT,
+	email BOOLEAN DEFAULT false,
+	age BOOLEAN DEFAULT false,
+	telephone BOOLEAN DEFAULT false,
+	genre BOOLEAN DEFAULT false,
+	custom BOOLEAN DEFAULT false,
+  custom_text varchar(1000),
+  username varchar(255),
+  PRIMARY KEY(cle),
+  INDEX (id_user),
+
+  FOREIGN KEY (id_user)
+    REFERENCES user(id_user)
+    ON UPDATE CASCADE ON DELETE CASCADE
+)   ENGINE=INNODB;
 
 
 CREATE TABLE IF NOT EXISTS game (
   id_game INT NOT NULL AUTO_INCREMENT,
+  id_user INT NOT NULL,
   username varchar(255)  NOT NULL,
   admin BOOLEAN DEFAULT false,
   temps_jeu int(11) NOT NULL,
   date_go varchar(255) NOT NULL,
-  PRIMARY KEY(id_game)
+  PRIMARY KEY(id_game),
+  INDEX (id_user),
+
+  FOREIGN KEY (id_user)
+    REFERENCES user(id_user)
+    ON UPDATE CASCADE ON DELETE CASCADE
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS event (
 	id_event int NOT NULL AUTO_INCREMENT,
-  id_game int(6) NOT NULL,
-  id_user INT NOT NULL,
+	id_user INT NOT NULL,
 	cle int(6) NOT NULL,
 	username varchar(255) NOT NULL,
 	admin BOOLEAN DEFAULT false,
@@ -54,7 +68,6 @@ CREATE TABLE IF NOT EXISTS event (
     PRIMARY KEY(id_event),
     INDEX (cle),
     INDEX (id_user),
-    INDEX (id_game),
 
     FOREIGN KEY (cle)
       REFERENCES shotgun(cle)
@@ -62,13 +75,20 @@ CREATE TABLE IF NOT EXISTS event (
       
 	FOREIGN KEY (id_user)
       REFERENCES user(id_user)
-      ON UPDATE CASCADE ON DELETE CASCADE,
-      
-	FOREIGN KEY (id_game)
-      REFERENCES game(id_game)
       ON UPDATE CASCADE ON DELETE CASCADE
       
 )   ENGINE=INNODB;
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -3,6 +3,7 @@ const sql = require("./db.js");
 // constructor
 const Game = function(game) {
   this.id_game = game.id_game;
+  this.id_user = game.id_user;
   this.username= game.username;
   this.admin = game.admin;
   this.temps_jeu = game.temps_jeu;

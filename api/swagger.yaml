@@ -46,7 +46,7 @@ paths:
         "405":
           description: "Invalid input"
       x-swagger-router-controller: "shotgun.controller"
-  /shotgun/{cle}:
+  /shotgun/:{cle}:
     get:
       tags:
       - "shotgun"
@@ -123,7 +123,34 @@ paths:
         "404":
           description: "Shotgun not found"
       x-swagger-router-controller: "shotgun.controller"
-  /shotgun/shotlist/{username}:
+  /shotgun/nextshot/:{username}:
+    get:
+      tags:
+      - "shotgun"
+      summary: "Find shotgun by username"
+      description: "Returns the next shotgun"
+      operationId: "findnextshotgun"
+      produces:
+      - "application/json"
+      - "application/xml"
+      parameters:
+      - name: "username"
+        in: "path"
+        description: "username for the next shotgun"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Shotgun"
+        "400":
+          description: "Invalid username supplied"
+        "404":
+          description: "Shotgun not found"
+      x-swagger-router-controller: "shotgun.controller"
+  /shotgun/shotlist/:{username}:
     get:
       tags:
       - "shotgun"
@@ -151,7 +178,7 @@ paths:
         "404":
           description: "Shotgun List not found"
       x-swagger-router-controller: "shotgun.controller"
-  /shotgun/shotlist/nom/{nom_shotgun}:
+  /shotgun/shotlist/nom/:{nom_shotgun}:
     get:
       tags:
       - "shotgun"
@@ -202,7 +229,7 @@ paths:
         "405":
           description: "Invalid input"
       x-swagger-router-controller: "Event"
-  /event/{cle}:
+  /event/:{cle}:
     get:
       tags:
       - "event"
@@ -280,7 +307,7 @@ paths:
         "404":
           description: "Event not found"
       x-swagger-router-controller: "Event"
-  /event/user/{username}:
+  /event/user/:{username}:
     get:
       tags:
       - "event"
@@ -308,7 +335,7 @@ paths:
         "404":
           description: "Shotgun not found"
       x-swagger-router-controller: "Event"
-  /event/user/:{username}/cle/:{cle}:
+  /event/user/user_cle/:{username}/:{cle}:
     get:
       tags:
       - "event"
@@ -422,7 +449,7 @@ paths:
         default:
           description: "successful operation"
       x-swagger-router-controller: "User"
-  /user/{username}:
+  /user/:{username}:
     get:
       tags:
       - "user"
@@ -520,7 +547,7 @@ paths:
         "405":
           description: "Invalid input"
       x-swagger-router-controller: "Game"
-  /game/{id_game}:
+  /game/:{id_game}:
     get:
       tags:
       - "game"
@@ -620,7 +647,7 @@ definitions:
     xml:
       name: "User"
     example:
-      id_user: 123012
+      id_user: null
       username: "username"
       password: "1234"
       fullname: "fullname"
@@ -637,11 +664,12 @@ definitions:
     properties:
       cle:
         type: "integer"
+      id_user:
+        type: "integer"
       nom_shotgun:
         type: "string"
       date_shotgun:
         type: "string"
-        format: "date"
       nb_place:
         type: "integer"
       photo_shotgun:
@@ -658,10 +686,13 @@ definitions:
         type: "boolean"
       custom_text:
         type: "string"
+      username:
+        type: "string"
     xml:
       name: "Shotgun"
     example:
-      cle: 154690
+      cle: null
+      id_user: "1"
       nom_shotgun: "weski"
       date_shotgun: "20/10/2022"
       nb_place: 2
@@ -672,12 +703,11 @@ definitions:
       genre: "false"
       custom: "false"
       custom_text: "promo"
+      username: "alec"
   Event:
     type: "object"
     properties:
       id_event:
-        type: "integer"
-      id_game:
         type: "integer"
       id_user:
         type: "integer"
@@ -696,16 +726,15 @@ definitions:
       custom:
         type: 'string'
       temps_shot:
-        type: "integer"
+        type: "string"
       visible:
         type: "boolean"
     xml:
       name: "Event"
     example:
-      id_event: 100000
-      id_game: 100000
-      id_user: 100000
-      cle: 100000
+      id_event: null
+      id_user: 1
+      cle: 1
       username: "username"
       admin: "true"
       age: 18
@@ -720,19 +749,21 @@ definitions:
     properties:
       id_game:
         type: "integer"
+      id_user:
+        type: "integer"
       username:
         type: "string"
       admin:
         type: "boolean"
       temps_jeu:
-        type: "integer"
+        type: "string"
       date_go:
         type: "string"
-        format: "date"
     xml:
       name: "Game"
     example:
       id_game: 100650
+      id_user: 100001
       username: "username"
       admin: "true"
       temps_jeu: 6

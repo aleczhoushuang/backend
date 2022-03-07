@@ -3,7 +3,6 @@ const sql = require("./db.js");
 // constructor
 const Event = function(event) {
   this.id_event = event.id_event;
-  this.id_game = event.id_game;
   this.id_user = event.id_user;
   this.cle = event.cle;
   this.username= event.username;
@@ -68,19 +67,26 @@ Event.findByUsername = (username, result) => {
 };
 
 Event.findByUsername_cle = (username, cle, result) => {
-  sql.query("SELECT * FROM event WHERE username = ? AND cle=?", username.substring(1), cle.substring(1),(err, res) => {
+  let username1 = username.substring(1);
+  let cle1 = cle.substring(1);
+  console.log("username="+username1+",cle="+cle1);
+  sql.query("SELECT * FROM event WHERE username = ? AND cle = ?", [username1, cle1],(err, res) => {
       if (err) {
-      console.log("error: ", err);
+      console.log("fonction findusername_cle3: ", err);
       result(err, null);
       return;
     }
 
+    console.log("continue findbyusername_cle")
+
+
     if (res.length) {
-      console.log("found event: ", res);
+      console.log("fonction found event: ", res);
       result(null, res);
       return;
     }
 
+    
     // not found Event with the username
     result({ kind: "not_found" }, null);
   });
@@ -129,9 +135,11 @@ Event.updateByCle = (cle, event, result) => {
 };
 
 Event.updateByUsername_cle = (username, cle, event, result) => {
+  let username1 = username.substring(1);
+  console.log("username="+username1);
   sql.query(
-    "UPDATE event SET username = ?, admin = ?, age=?, telephone=?, genre=?, custom=?, temps_shot = ?, visible = ? WHERE cle = ? AND username=?",
-    [event.username, event.admin, event.age,  event.telephone, event.genre, event.custom, event.temps_shot, event.visible, cle.substring(1), username.substring(1) ],
+    "UPDATE event SET username = ?, admin = ?, age=?, telephone=?, genre=?, custom=?, temps_shot = ?, visible = ? WHERE username = ? AND cle=?",
+    [event.username, event.admin, event.age,  event.telephone, event.genre, event.custom, event.temps_shot, event.visible, username.substring(1), cle.substring(1) ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -172,7 +180,10 @@ Event.remove = (cle, result) => {
 };
 
 Event.removeunique = (username, cle, result) => {
-  sql.query("DELETE FROM event WHERE cle = ? AND username=?", cle.substring(1), username.substring(1), (err, res) => {
+  let username1 = username.substring(1);
+  let cle1 = cle.substring(1);
+  console.log("username="+username1+",cle="+cle1);
+  sql.query("DELETE FROM event WHERE username = ? AND cle=?", [username1, cle1], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);

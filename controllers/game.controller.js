@@ -14,6 +14,7 @@ exports.creategame = (req, res) => {
   // Create a Game
   const game = new Game({
     id_game: req.body.id_game,
+    id_user: req.body.id_user,
     username: req.body.username,
     admin: req.body.admin,
     temps_jeu: req.body.temps_jeu,

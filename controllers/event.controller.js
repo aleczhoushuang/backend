@@ -11,7 +11,6 @@ exports.createevent = (req, res) => {
   // Create an Event
   const event = new Event({
     id_event: req.body.id_event,
-    id_game: req.body.id_game,
     id_user: req.body.id_user,
     cle: req.body.cle,
     username: req.body.username,
@@ -70,10 +69,11 @@ exports.findevent = (req, res) => {
 
 exports.finduniqueevent = (req, res) => {
   Event.findByUsername_cle(req.params.username, req.params.cle, (err, data) => {
+    console.log("finduniqueevent :"+data);
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Event with username ${req.params.username} and cle ${req.params.cle}.`
+          message: `Not found Event with username ${req.params.username}`
         });
       } else {
         res.status(500).send({
@@ -120,7 +120,8 @@ exports.updateuniqueevent = (req, res) => {
     });
   }
   Event.updateByUsername_cle(
-    req.params.cle, req.params.uername,
+    req.params.username,
+    req.params.cle,
     new Event(req.body),
     (err, data) => {
       if (err) {
@@ -169,11 +170,11 @@ exports.deleteevent = (req, res) => {
 };
 
 exports.deleteuniqueevent = (req, res) => {
-  Event.removeunique(req.params.cle, req.params.username, (err, data) => {
+  Event.removeunique(req.params.username, req.params.cle, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Event with cle ${req.params.cle}.`
+          message: `Not found Event with cle ${req.params.cle} et username ${req.params.username}.`
         });
       } else {
         res.status(500).send({
