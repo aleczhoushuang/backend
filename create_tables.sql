@@ -1,3 +1,4 @@
+
 CREATE TABLE IF NOT EXISTS user (
   id_user INT NOT NULL AUTO_INCREMENT,
   username varchar(255),
@@ -78,28 +79,3 @@ CREATE TABLE IF NOT EXISTS event (
       ON UPDATE CASCADE ON DELETE CASCADE
       
 )   ENGINE=INNODB;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

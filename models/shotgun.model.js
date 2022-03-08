@@ -148,7 +148,7 @@ Shotgun.getAll = (cle, result) => {
 };
 
 Shotgun.findByUsername = (username, result) => {
-  sql.query("SELECT * FROM shotgun INNER JOIN event ON shotgun.cle = event.cle WHERE event.username = ? AND visible = 1", username.substring(1), (err, res) => {
+  sql.query("SELECT shotgun.cle, shotgun.id_user, shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text FROM shotgun INNER JOIN event ON shotgun.cle = event.cle WHERE event.username = ? AND visible = 1", username.substring(1), (err, res) => {
       if (err) {
       console.log("error: ", err);
       result(err, null);
