@@ -29,7 +29,7 @@ Event.create = (newEvent, result) => {
 };
 
 Event.findByCle = (cle, result) => {
-    sql.query("SELECT id_event, id_user, cle, username, CASE admin WHEN 1 THEN 'True' ELSE 'False' END AS admin, age, telephone, genre, custom, temps_shot, CASE visible WHEN 1 THEN 'True' ELSE 'False' END AS visible FROM event WHERE cle = ?", cle.substring(1), (err, res) => {
+    sql.query("SELECT * FROM event WHERE cle = ?", cle.substring(1), (err, res) => {
         if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -48,7 +48,7 @@ Event.findByCle = (cle, result) => {
 };
 
 Event.findByUsername = (username, result) => {
-  sql.query("SELECT id_event, id_user, cle, username, CASE admin WHEN 1 THEN 'True' ELSE 'False' END AS admin, age, telephone, genre, custom, temps_shot, CASE visible WHEN 1 THEN 'True' ELSE 'False' END AS visible FROM event WHERE username = ?", username.substring(1), (err, res) => {
+  sql.query("SELECT * FROM event WHERE username = ?", username.substring(1), (err, res) => {
       if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -70,7 +70,7 @@ Event.findByUsername_cle = (username, cle, result) => {
   let username1 = username.substring(1);
   let cle1 = cle.substring(1);
   console.log("username="+username1+",cle="+cle1);
-  sql.query("SELECT id_event, id_user, cle, username, CASE admin WHEN 1 THEN 'True' ELSE 'False' END AS admin, age, telephone, genre, custom, temps_shot, CASE visible WHEN 1 THEN 'True' ELSE 'False' END AS visible FROM event WHERE username = ? AND cle = ?", [username1, cle1],(err, res) => {
+  sql.query("SELECT * FROM event WHERE username = ? AND cle = ?", [username1, cle1],(err, res) => {
       if (err) {
       console.log("fonction findusername_cle3: ", err);
       result(err, null);
@@ -93,7 +93,7 @@ Event.findByUsername_cle = (username, cle, result) => {
 };
 
 Event.getAll = (cle, result) => {
-  let query = "SELECT id_event, id_user, cle, username, CASE admin WHEN 1 THEN 'True' ELSE 'False' END AS admin, age, telephone, genre, custom, temps_shot, CASE visible WHEN 1 THEN 'True' ELSE 'False' END AS visible FROM event FROM event";
+  let query = "SELECT * FROM event";
 
   if (cle) {
     query += ` WHERE cle LIKE '%${cle}%'`;
