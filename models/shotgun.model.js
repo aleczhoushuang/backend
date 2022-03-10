@@ -48,7 +48,7 @@ Shotgun.create = (newShotgun, result) => {
 };
 
 Shotgun.findByCle = (cle, result) => {
-    sql.query("SELECT * FROM shotgun WHERE cle = ?", cle.substring(1), (err, res) => {
+    sql.query("SELECT cle, id_user, nom_shotgun, nb_place, photo_shotgun, CASE email WHEN 1 THEN 'True' ELSE 'False' END AS email, CASE age WHEN 1 THEN 'True' ELSE 'False' END AS age, CASE telephone WHEN 1 THEN 'True' ELSE 'False' END AS telephone, CASE genre WHEN 1 THEN 'True' ELSE 'False' END AS genre, CASE custom WHEN 1 THEN 'True' ELSE 'False' END AS custom, custom_text, username FROM shotgun WHERE cle = ?", cle.substring(1), (err, res) => {
         if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -67,7 +67,7 @@ Shotgun.findByCle = (cle, result) => {
 };
 
 Shotgun.findByNom = (nom_shotgun, result) => {
-  sql.query("SELECT * FROM shotgun WHERE nom_shotgun = ?", nom_shotgun.substring(1), (err, res) => {
+  sql.query("SELECT cle, id_user, nom_shotgun, nb_place, photo_shotgun, CASE email WHEN 1 THEN 'True' ELSE 'False' END AS email, CASE age WHEN 1 THEN 'True' ELSE 'False' END AS age, CASE telephone WHEN 1 THEN 'True' ELSE 'False' END AS telephone, CASE genre WHEN 1 THEN 'True' ELSE 'False' END AS genre, CASE custom WHEN 1 THEN 'True' ELSE 'False' END AS custom, custom_text, username FROM shotgun WHERE nom_shotgun = ?", nom_shotgun.substring(1), (err, res) => {
       if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -148,7 +148,7 @@ Shotgun.getAll = (cle, result) => {
 };
 
 Shotgun.findByUsername = (username, result) => {
-  sql.query("SELECT shotgun.cle, shotgun.id_user, shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text FROM shotgun INNER JOIN event ON shotgun.cle = event.cle WHERE event.username = ? AND visible = 1", username.substring(1), (err, res) => {
+  sql.query("SELECT shotgun.cle, shotgun.id_user, shotgun.nom_shotgun, shotgun.nb_place, shotgun.photo_shotgun, CASE shotgun.email WHEN 1 THEN 'True' ELSE 'False' END AS shotgun.email, CASE shotgun.age WHEN 1 THEN 'True' ELSE 'False' END AS shotgun.age, CASE shotgun.telephone WHEN 1 THEN 'True' ELSE 'False' END AS shotgun.telephone, CASE shotgun.genre WHEN 1 THEN 'True' ELSE 'False' END AS shotgun.genre, CASE shotgun.custom WHEN 1 THEN 'True' ELSE 'False' END AS shotgun.custom, shotgun.custom_text, shotgun.username FROM shotgun INNER JOIN event ON shotgun.cle = event.cle WHERE event.username = ? AND visible = 1", username.substring(1), (err, res) => {
       if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -167,7 +167,7 @@ Shotgun.findByUsername = (username, result) => {
 };
 
 Shotgun.findByNext = (username, result) => {
-  sql.query("SELECT * FROM shotgun JOIN event ON shotgun.cle = event.cle WHERE event.username=? AND DATEDIFF(shotgun.date_shotgun, NOW()) > 0 ORDER BY date_shotgun", username.substring(1), (err, res) => {
+  sql.query("SELECT cle, id_user, nom_shotgun, nb_place, photo_shotgun, CASE email WHEN 1 THEN 'True' ELSE 'False' END AS email, CASE age WHEN 1 THEN 'True' ELSE 'False' END AS age, CASE telephone WHEN 1 THEN 'True' ELSE 'False' END AS telephone, CASE genre WHEN 1 THEN 'True' ELSE 'False' END AS genre, CASE custom WHEN 1 THEN 'True' ELSE 'False' END AS custom, custom_text, username FROM shotgun JOIN event ON shotgun.cle = event.cle WHERE event.username=? AND DATEDIFF(shotgun.date_shotgun, NOW()) > 0 ORDER BY date_shotgun", username.substring(1), (err, res) => {
       if (err) {
       console.log("error: ", err);
       result(err, null);
