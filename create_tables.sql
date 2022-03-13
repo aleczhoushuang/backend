@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS event (
 	telephone int(10),
 	genre varchar(255),
 	custom varchar(255),
-	temps_shot int(11),
+	temps_shot varchar(255),
   visible BOOLEAN DEFAULT true,
 
     PRIMARY KEY(id_event),
