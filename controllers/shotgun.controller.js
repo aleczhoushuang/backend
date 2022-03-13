@@ -23,7 +23,8 @@ exports.createshotgun = (req, res) => {
     genre: req.body.genre,
     custom: req.body.custom,
     custom_text: req.body.custom_text,
-    username: req.body.username
+    username: req.body.username,
+    id_shotgun: req.body.id_shotgun
   });
 
  // Save Shotgun in the database
@@ -160,3 +161,19 @@ exports.findListshotgun = (req, res) => {
     } else res.send(data);
   });
   };
+
+  exports.findidshotgun = (req, res) => {
+    Shotgun.findById(req.params.id_shotgun, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Shotgun with username ${req.params.id_shotgun}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving Shotgun with username " + req.params.id_shotgun
+          });
+        }
+      } else res.send(data);
+    });
+    };

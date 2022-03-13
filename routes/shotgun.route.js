@@ -22,6 +22,8 @@ module.exports = app => {
    // Retrieve a single Shotgun with id
    router.get("/shotlist/:username", shotgun.findListshotgun);
 
+   router.get("/id/:id_shotgun", shotgun.findidshotgun);
+
    router.get("/nextshot/:username", shotgun.findnextshotgun);
 
   app.use('/api/shotgun', router);

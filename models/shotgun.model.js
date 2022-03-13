@@ -14,7 +14,8 @@ const Shotgun = function(shotgun) {
   this.genre = shotgun.genre;
   this.custom = shotgun.custom;
   this.custom_text = shotgun.custom_text;
-  this.username = shotgun.username
+  this.username = shotgun.username;
+  this.id_shotgun = shotgun.id_shotgun
 };
 
 
@@ -177,6 +178,25 @@ Shotgun.findByNext = (username, result) => {
     if (res.length) {
       console.log("found shotgun: ", res[0]);
       result(null, res[0]);
+      return;
+    }
+
+    // not found Shotgun with the username
+    result({ kind: "not_found" }, null);
+  });
+};
+
+Shotgun.findById = (id_shotgun, result) => {
+  sql.query("SELECT * FROM shotgun WHERE id_shotgun=?", id_shotgun.substring(1), (err, res) => {
+      if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found shotgun: ", res);
+      result(null, res);
       return;
     }
 
