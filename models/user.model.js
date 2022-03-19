@@ -37,8 +37,14 @@ User.login = (User, result) => {
       result(err, null);
       return;
     }
-    console.log("Found account");
-    result(null, res);
+    if (res.length) {
+      console.log("found account: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found user with the username
+    result({ kind: "not_found" }, null);
   });
 };
 
