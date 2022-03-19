@@ -65,7 +65,6 @@ exports.loginuser = (req, res) => {
           err.message || "User not found."
       });
     else res.send(data);
-    return this.findOneuser(req.body.username,res)
   });
 };
 

@@ -30,21 +30,14 @@ User.create = (newUser, result) => {
 User.login = (User, result) => {
   let username = User.username;
   let password = User.password;
-  console.log("username="+username+",password="+password);
   sql.query("SELECT * FROM user WHERE username=? AND password=?", [username, password], (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
       return;
     }
-    if (res.length) {
       console.log("found account: ", res);
       result(null, res);
-      return;
-    }
-
-    // not found user with the username
-    result({ kind: "not_found" }, null);
   });
 };
 
