@@ -27,6 +27,21 @@ User.create = (newUser, result) => {
   });
 };
 
+User.login = (User, result) => {
+  let username = User.username;
+  let password = User.password;
+  console.log("username="+username+",password="+password);
+  sql.query("SELECT * FROM user WHERE username=? AND password=?", [username, password], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    console.log("Found account");
+    result(null, res);
+  });
+};
+
 User.findByName = (username, result) => {
     sql.query("SELECT * FROM user WHERE username = ?", username.substring(1), (err, res) => {
         if (err) {

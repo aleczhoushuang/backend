@@ -35,6 +35,40 @@ exports.createuser = (req, res) => {
   });
 };
 
+exports.loginuser = (req, res) => {
+  // Validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+    return;
+  }
+
+  // Find a User
+  const user = new User({
+    id_user : req.body.id_user,
+    username: req.body.username,
+    password: req.body.password,
+    fullname: req.body.fullname,
+    photo: req.body.photo,
+    bio: req.body.bio,
+    age: req.body.age,
+    telephone: req.body.telephone,
+    genre: req.body.genre,
+    lieu: req.body.lieu
+  });   
+  // Save User in the database
+  User.login(user, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "User not found."
+      });
+    else res.send(data);
+  });
+};
+
+
 // Find a single User with a username
 exports.findOneuser = (req, res) => {
   User.findByName(req.params.username, (err, data) => {
