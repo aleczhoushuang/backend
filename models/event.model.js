@@ -29,7 +29,7 @@ Event.create = (newEvent, result) => {
 };
 
 Event.findByCle = (cle, result) => {
-    sql.query("SELECT * FROM event WHERE cle = ?", cle.substring(1), (err, res) => {
+    sql.query("SELECT * FROM event WHERE cle = ? ORDER BY event.temps_shot", cle.substring(1), (err, res) => {
         if (err) {
         console.log("error: ", err);
         result(err, null);
