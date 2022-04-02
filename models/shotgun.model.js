@@ -168,7 +168,7 @@ Shotgun.findByUsername = (username, result) => {
 };
 
 Shotgun.findByNext = (username, result) => {
-  sql.query("SELECT shotgun.* FROM shotgun JOIN event ON shotgun.cle = event.cle WHERE event.username=? AND DATEDIFF(shotgun.date_shotgun, NOW()) > 0 ORDER BY date_shotgun", username.substring(1), (err, res) => {
+  sql.query("SELECT shotgun.* FROM shotgun JOIN event ON shotgun.cle = event.cle WHERE event.username=? AND TIMEDIFF(shotgun.date_shotgun, NOW()) > 0 ORDER BY date_shotgun", username.substring(1), (err, res) => {
       if (err) {
       console.log("error: ", err);
       result(err, null);
