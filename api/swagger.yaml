@@ -22,6 +22,21 @@ tags:
 # schemes:
 # - "http"
 # - "https"
+
+/upload:
+    post:
+      summary: Uploads a file.
+      consumes:
+         - multipart/form-data
+      parameters:
+         - in: formData
+           name: upfile
+           type: file
+           description: Photo of shotguns or profil.
+      responses:
+        "405":
+          description: "Invalid input"
+
 paths:
   /shotgun:
     post:

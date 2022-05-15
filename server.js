@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-
+global.__basedir = __dirname;
 var corsOptions = {
   origin: "http://localhost:8081"
 };
@@ -24,6 +24,7 @@ require("./routes/event.route.js")(app);
 require("./routes/game.route.js")(app);
 require("./routes/shotgun.route.js")(app);
 require("./routes/user.route.js")(app);
+require("./routes/index.js")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

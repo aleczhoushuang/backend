@@ -19,22 +19,6 @@ const Shotgun = function(shotgun) {
 };
 
 
-function entierAleatoire(min, max)
-  {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-  var liste = [0,1,2,6,8,7,3,5,9,4]
-  //Utilisation
-  //La variable contient un nombre aléatoire compris entre 1 et 10
-  var entier = entierAleatoire(1, 10);
-  for (let i = 0; i < liste.length; i++) {
-    if (entier === liste[i]){
-      entier = entierAleatoire(1, 10);
-      i=0;
-  }    
-} 
-
-
 Shotgun.create = (newShotgun, result) => {
   sql.query("INSERT INTO shotgun SET ?", newShotgun, (err, res) => {
     if (err) {
