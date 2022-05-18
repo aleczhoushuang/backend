@@ -1,0 +1,77 @@
+putty
+
+pour lancer une appli en arrière plan sur debian sur backend: sudo nohup npm start &
+
+pour lister les process: ps -eaf | grep mysql
+
+pour lister les ports : netstat -an|grep 8080
+
+pour voir les fichiers qui bougent : sudo tail -f nohup.out
+
+
+
+commande mysql :
+
+redémarrer mysql : sudo service mysql restart
+
+log in sur mysql : sudo mysql -uroot -p
+
+aller dans la base de données : use shotgun;
+
+lister les tables : show tables;
+
+
+stopper npm start : ps -eaf | grep server.js
+=> récupère le numéro de process
+stopper : sudo kill -9 numérodeprocess
+
+
+
+
+se connecter au serveur via putty:
+
+cd shotgun/backend
+
+git remote -v 
+
+git pull origin master
+
+
+pwd : afficher le répertoire courant
+
+
+mise en service : 
+
+cd /lib/systemd/system
+
+sudo cp mysql.service shotgun.service
+
+cat shotgun.sercice (regarder le fichier)
+
+sudo nano shotgun.service
+
+cd 
+
+cd shotgun/backend
+
+sudo nano stop_shotgun.sh (script pour stopper)
+
+sudo systemctl enable shotgun.service
+
+sudo service shotgun status ( pour voir le status)
+
+sudo service shotgun start
+
+sudo service shotgun stop
+
+(après chaque modif) sudo systemctl daemon-reload
+
+ls -ltr : voir les détails
+
+pour chnager de propriétaire de fichier :
+sudo chown debian:debian stop_shotgun.sh
+
+pour changer les droits aux fichiers:
+sudo chmod a+x stop_shotgun.sh
+(u = user, g=groupe, o=other, a=all)
+droit du fichier: r=read, x=exécuter, w=écrire
