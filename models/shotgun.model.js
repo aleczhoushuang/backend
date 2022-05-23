@@ -24,7 +24,22 @@ Shotgun.create = (newShotgun, result) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
-      return;
+      sql.query("SELECT cle FROM shotgun WHERE id_shotgun = ?", id_shotgun.substring(1), (err, res) => {
+        if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+  
+      if (res.length) {
+        console.log("found shotgun: ", res);
+        result(null, res);
+        return;
+      }
+  
+      // not found Shotgun with the cle
+      result({ kind: "not_found" }, null);
+      });
     }
 
     console.log("created Shotgun: ", { cle: res.insertCle, ...newShotgun });
