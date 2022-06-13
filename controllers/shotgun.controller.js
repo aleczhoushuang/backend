@@ -24,7 +24,8 @@ exports.createshotgun = (req, res) => {
     custom: req.body.custom,
     custom_text: req.body.custom_text,
     username: req.body.username,
-    id_shotgun: req.body.id_shotgun
+    id_shotgun: req.body.id_shotgun,
+    description: req.body.description
   });
 
  // Save Shotgun in the database

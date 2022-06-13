@@ -15,7 +15,8 @@ const Shotgun = function(shotgun) {
   this.custom = shotgun.custom;
   this.custom_text = shotgun.custom_text;
   this.username = shotgun.username;
-  this.id_shotgun = shotgun.id_shotgun
+  this.id_shotgun = shotgun.id_shotgun;
+  this.description = shotgun.description
 };
 
 
@@ -88,8 +89,8 @@ Shotgun.findByNom = (nom_shotgun, result) => {
 
 Shotgun.updateByCle = (cle, shotgun, result) => {
   sql.query(
-    "UPDATE shotgun SET nom_shotgun = ?, date_shotgun = ?, nb_place = ?, photo_shotgun = ?, email=?, age=?, telephone=?, genre=?, custom=?, custom_text=?, username=? WHERE cle = ?",
-    [shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text, shotgun.username, cle.substring(1) ],
+    "UPDATE shotgun SET nom_shotgun = ?, date_shotgun = ?, nb_place = ?, photo_shotgun = ?, email=?, age=?, telephone=?, genre=?, custom=?, custom_text=?, username=?, description=? WHERE cle = ?",
+    [shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text, shotgun.username, shotgun.description, cle.substring(1) ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -148,7 +149,7 @@ Shotgun.getAll = (cle, result) => {
 };
 
 Shotgun.findByUsername = (username, result) => {
-  sql.query("SELECT shotgun.cle, shotgun.id_user, shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text, shotgun.username, shotgun.id_shotgun FROM shotgun INNER JOIN event ON shotgun.cle = event.cle WHERE event.username = ? AND visible = 1 ORDER BY shotgun.date_shotgun", username.substring(1), (err, res) => {
+  sql.query("SELECT shotgun.cle, shotgun.id_user, shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text, shotgun.username, shotgun.id_shotgun, shotgun.description FROM shotgun INNER JOIN event ON shotgun.cle = event.cle WHERE event.username = ? AND visible = 1 ORDER BY shotgun.date_shotgun", username.substring(1), (err, res) => {
       if (err) {
       console.log("error: ", err);
       result(err, null);
