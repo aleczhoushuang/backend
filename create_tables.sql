@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS shotgun (
   custom_text varchar(1000),
   username varchar(255),
   description varchar(1000),
+  mdp varchar(255),
   PRIMARY KEY(cle),
   INDEX (id_user),
 
