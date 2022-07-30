@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-
+const bodyParser = require('body-parser');
 const app = express();
 global.__basedir = __dirname;
 var corsOptions = {
@@ -19,6 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to shotgun application ! " });
 });
+
+app.use(bodyParser.json({limit: '50mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
 
 require("./routes/event.route.js")(app);
 require("./routes/game.route.js")(app);
