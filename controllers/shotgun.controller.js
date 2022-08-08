@@ -26,35 +26,52 @@ exports.createshotgun = (req, res) => {
     username: req.body.username,
     id_shotgun: req.body.id_shotgun,
     description: req.body.description,
-    mdp: req.body.mdp
+    mdp: req.body.mdp,
+    commercial: req.body.commercial,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    distance: req.body.distance
   });
 
- // Save Shotgun in the database
- Shotgun.create(shotgun, (err, data) => {
-  if (err)
-    res.status(500).send({
-      message:
-        err.message || "Some error occurred while creating the shotgun."
-    });
-  else res.send(data);
-});
+  // Save Shotgun in the database
+  Shotgun.create(shotgun, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the shotgun."
+      });
+    else res.send(data);
+  });
 };
 
 // Find a single Shotgun with a cle
 exports.findOneshotgun = (req, res) => {
-Shotgun.findByCle(req.params.cle, (err, data) => {
-  if (err) {
-    if (err.kind === "not_found") {
-      res.status(404).send({
-        message: `Not found Shotgun with cle ${req.params.cle}.`
-      });
-    } else {
+  Shotgun.findByCle(req.params.cle, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Shotgun with cle ${req.params.cle}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Shotgun with cle " + req.params.cle
+        });
+      }
+    } else res.send(data);
+  });
+};
+
+exports.getdateserveur = (req, res) => {
+  const cle = req.query.cle;
+
+  Shotgun.getdate(cle, (err, data) => {
+    if (err)
       res.status(500).send({
-        message: "Error retrieving Shotgun with cle " + req.params.cle
+        message:
+          err.message || "Some error occurred while retrieving shotgun."
       });
-    }
-  } else res.send(data);
-});
+    else res.send(data);
+  });
 };
 
 // Find a single Shotgun with a name
@@ -72,36 +89,54 @@ exports.findshotgun = (req, res) => {
       }
     } else res.send(data);
   });
-  };
+};
 
-  exports.findnextshotgun = (req, res) => {
-    Shotgun.findByNext(req.params.username, (err, data) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Not found next Shotgun of ${req.params.username}.`
-          });
-        } else {
-          res.status(500).send({
-            message: "Error retrieving next Shotgun nom " + req.params.username
-          });
-        }
-      } else res.send(data);
-    });
-    };
+exports.findnextshotgun = (req, res) => {
+  Shotgun.findByNext(req.params.username, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found next Shotgun of ${req.params.username}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving next Shotgun nom " + req.params.username
+        });
+      }
+    } else res.send(data);
+  });
+};
 
 // Update a Shotgun by the cle in the request
 exports.updateshotgun = (req, res) => {
-// Validate Request
-if (!req.body) {
-  res.status(400).send({
-    message: "Content can not be empty!"
-  });
-}
-Shotgun.updateByCle(
-  req.params.cle,
-  new Shotgun(req.body),
-  (err, data) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  Shotgun.updateByCle(
+    req.params.cle,
+    new Shotgun(req.body),
+    (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found Shotgun with cle ${req.params.cle}.`
+          });
+        } else {
+          res.status(500).send({
+            message: "Error updating Shotgun with cle " + req.params.cle
+          });
+        }
+      } else res.send(data);
+    }
+  );
+};
+
+// Delete a Shotgun with the specified cle in the request
+exports.deleteshotgun = (req, res) => {
+  Shotgun.remove(req.params.cle, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -109,29 +144,11 @@ Shotgun.updateByCle(
         });
       } else {
         res.status(500).send({
-          message: "Error updating Shotgun with cle " + req.params.cle
+          message: "Could not delete Shotgun with cle " + req.params.cle
         });
       }
-    } else res.send(data);
-  }
-);
-};
-
-// Delete a Shotgun with the specified cle in the request
-exports.deleteshotgun = (req, res) => {
-Shotgun.remove(req.params.cle, (err, data) => {
-  if (err) {
-    if (err.kind === "not_found") {
-      res.status(404).send({
-        message: `Not found Shotgun with cle ${req.params.cle}.`
-      });
-    } else {
-      res.status(500).send({
-        message: "Could not delete Shotgun with cle " + req.params.cle
-      });
-    }
-  } else res.send({ message: `Shotgun was deleted successfully!` });
-});
+    } else res.send({ message: `Shotgun was deleted successfully!` });
+  });
 };
 
 exports.findAll = (req, res) => {
@@ -162,20 +179,20 @@ exports.findListshotgun = (req, res) => {
       }
     } else res.send(data);
   });
-  };
+};
 
-  exports.findidshotgun = (req, res) => {
-    Shotgun.findById(req.params.id_shotgun, (err, data) => {
-      if (err) {
-        if (err.kind === "not_found") {
-          res.status(404).send({
-            message: `Not found Shotgun with username ${req.params.id_shotgun}.`
-          });
-        } else {
-          res.status(500).send({
-            message: "Error retrieving Shotgun with username " + req.params.id_shotgun
-          });
-        }
-      } else res.send(data);
-    });
-    };
+exports.findidshotgun = (req, res) => {
+  Shotgun.findById(req.params.id_shotgun, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Shotgun with username ${req.params.id_shotgun}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Shotgun with username " + req.params.id_shotgun
+        });
+      }
+    } else res.send(data);
+  });
+};

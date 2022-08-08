@@ -9,6 +9,8 @@ module.exports = app => {
     // Retrieve a single Event with id
     router.get("/:cle", event.findOneevent);
 
+    router.get("/inscrit/:cle", event.findOneeventInscrit);
+
     router.get("/user/:username", event.findevent);
 
     router.get("/user/user_cle/:username/:cle", event.finduniqueevent);

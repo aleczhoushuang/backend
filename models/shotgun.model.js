@@ -17,9 +17,12 @@ const Shotgun = function(shotgun) {
   this.username = shotgun.username;
   this.id_shotgun = shotgun.id_shotgun;
   this.description = shotgun.description;
-  this.mdp = shotgun.mdp
+  this.mdp = shotgun.mdp;
+  this.commercial = shotgun.commercial;
+  this.latitude = shotgun.latitude;
+  this.longitude = shotgun.localisationy;
+  this.distance = shotgun.distance; 
 };
-
 
 Shotgun.create = (newShotgun, result) => {
   sql.query("INSERT INTO shotgun SET ?", newShotgun, (err, res) => {
@@ -87,11 +90,10 @@ Shotgun.findByNom = (nom_shotgun, result) => {
   });
 };
 
-
 Shotgun.updateByCle = (cle, shotgun, result) => {
   sql.query(
-    "UPDATE shotgun SET nom_shotgun = ?, date_shotgun = ?, nb_place = ?, photo_shotgun = ?, email=?, age=?, telephone=?, genre=?, custom=?, custom_text=?, username=?, description=?, mdp=? WHERE cle = ?",
-    [shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text, shotgun.username, shotgun.description, shotgun.mdp, cle.substring(1) ],
+    "UPDATE shotgun SET nom_shotgun = ?, date_shotgun = ?, nb_place = ?, photo_shotgun = ?, email=?, age=?, telephone=?, genre=?, custom=?, custom_text=?, username=?, description=?, mdp=?, commercial=?, latitude=?, longitude=?, distance=? WHERE cle = ?",
+    [shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text, shotgun.username, shotgun.description, shotgun.mdp, shotgun.commercial, shotgun.latitude,shotgun.longitude, shotgun.distance, cle.substring(1) ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -150,7 +152,7 @@ Shotgun.getAll = (cle, result) => {
 };
 
 Shotgun.findByUsername = (username, result) => {
-  sql.query("SELECT shotgun.cle, shotgun.id_user, shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text, shotgun.username, shotgun.id_shotgun, shotgun.description, shotgun.mdp FROM shotgun INNER JOIN event ON shotgun.cle = event.cle WHERE event.username = ? AND visible = 1 ORDER BY shotgun.date_shotgun", username.substring(1), (err, res) => {
+  sql.query("SELECT shotgun.cle, shotgun.id_user, shotgun.nom_shotgun, shotgun.date_shotgun, shotgun.nb_place, shotgun.photo_shotgun, shotgun.email, shotgun.age, shotgun.telephone, shotgun.genre, shotgun.custom, shotgun.custom_text, shotgun.username, shotgun.id_shotgun, shotgun.description, shotgun.mdp, shotgun.commercial, shotgun.latitude, shotgun.longitude, shotgun.distance FROM shotgun INNER JOIN event ON shotgun.cle = event.cle WHERE event.username = ? AND visible = 1 ORDER BY shotgun.date_shotgun", username.substring(1), (err, res) => {
       if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -184,6 +186,16 @@ Shotgun.findByNext = (username, result) => {
 
     // not found Shotgun with the username
     result({ kind: "not_found" }, null);
+  });
+};
+
+Shotgun.getdate = (cle, result) => {
+  sql.query("SELECT NOW()", (err, res) => {
+    if (err) {
+    result(null, res[0]);
+    return;
+    }
+    result(null, res[0]);
   });
 };
 

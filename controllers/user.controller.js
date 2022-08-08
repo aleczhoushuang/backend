@@ -22,7 +22,8 @@ exports.createuser = (req, res) => {
     age: req.body.age,
     telephone: req.body.telephone,
     genre: req.body.genre,
-    lieu: req.body.lieu
+    lieu: req.body.lieu,
+    humain: req.body.humain
   });   
   // Save User in the database
   User.create(user, (err, data) => {
@@ -55,7 +56,8 @@ exports.loginuser = (req, res) => {
     age: req.body.age,
     telephone: req.body.telephone,
     genre: req.body.genre,
-    lieu: req.body.lieu
+    lieu: req.body.lieu,
+    humain: req.body.humain
   });   
   // Save User in the database
   User.login(user, (err, data) => {

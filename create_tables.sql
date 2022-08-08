@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS user (
   telephone varchar(255),
   genre varchar(255),
   lieu varchar(255),
+  humain varchar(255),
   UNIQUE(username),
   PRIMARY KEY(id_user,username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -31,6 +32,10 @@ CREATE TABLE IF NOT EXISTS shotgun (
   username varchar(255),
   description varchar(1000),
   mdp varchar(255),
+  commercial varchar(255),
+  latitude float(20),
+  longitude float(20),
+  distance float(20),
   PRIMARY KEY(cle),
   INDEX (id_user),
 
@@ -38,7 +43,6 @@ CREATE TABLE IF NOT EXISTS shotgun (
     REFERENCES user(id_user)
     ON UPDATE CASCADE ON DELETE CASCADE
 )   ENGINE=INNODB;
-
 
 CREATE TABLE IF NOT EXISTS game (
   id_game INT NOT NULL AUTO_INCREMENT,

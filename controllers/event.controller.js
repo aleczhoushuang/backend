@@ -51,6 +51,22 @@ exports.findOneevent = (req, res) => {
   });
 };
 
+exports.findOneeventInscrit = (req, res) => {
+  Event.findByCleInscrit(req.params.cle, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Event with cle ${req.params.cle}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Event with cle " + req.params.cle
+        });
+      }
+    } else res.send(data);
+  });
+};
+
 exports.findevent = (req, res) => {
   Event.findByUsername(req.params.username, (err, data) => {
     if (err) {

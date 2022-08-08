@@ -6,6 +6,7 @@ module.exports = app => {
   // Create a new Shotgun
   router.post("/", shotgun.createshotgun);
 
+  router.get("/date", shotgun.getdateserveur);
   // Retrieve a single Shotgun with id
   router.get("/:cle", shotgun.findOneshotgun);
 

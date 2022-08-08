@@ -47,6 +47,25 @@ Event.findByCle = (cle, result) => {
     });
 };
 
+Event.findByCleInscrit = (cle, result) => {
+  sql.query("SELECT * FROM event WHERE cle = ? AND length(temps_shot) > 0 ORDER BY event.temps_shot", cle.substring(1), (err, res) => {
+      if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    if (res.length) {
+      console.log("found event: ", res);
+      result(null, res);
+      return;
+    }
+
+    // not found Event with the cle
+    result({ kind: "not_found" }, null);
+  });
+};
+
 Event.findByUsername = (username, result) => {
   sql.query("SELECT * FROM event WHERE username = ?", username.substring(1), (err, res) => {
       if (err) {
