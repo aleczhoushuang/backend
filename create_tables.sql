@@ -11,6 +11,10 @@ CREATE TABLE IF NOT EXISTS user (
   genre varchar(255),
   lieu varchar(255),
   humain varchar(255),
+  meilleur int(20),
+  creation int(20),
+  inscription int(20),
+  premier int(20),
   UNIQUE(username),
   PRIMARY KEY(id_user,username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -32,7 +36,7 @@ CREATE TABLE IF NOT EXISTS shotgun (
   username varchar(255),
   description varchar(1000),
   mdp varchar(255),
-  commercial varchar(255),
+  commercial BOOLEAN DEFAULT false,
   latitude float(20),
   longitude float(20),
   distance float(20),
@@ -70,7 +74,7 @@ CREATE TABLE IF NOT EXISTS event (
 	telephone varchar(255),
 	genre varchar(255),
 	custom varchar(255),
-	temps_shot varchar(255),
+	temps_shot int(20),
   visible BOOLEAN DEFAULT true,
 
     PRIMARY KEY(id_event),

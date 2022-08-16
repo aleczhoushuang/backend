@@ -23,7 +23,11 @@ exports.createuser = (req, res) => {
     telephone: req.body.telephone,
     genre: req.body.genre,
     lieu: req.body.lieu,
-    humain: req.body.humain
+    humain: req.body.humain,
+    meilleur: req.body.meilleur,
+    creation: req.body.creation,
+    inscription: req.body.inscription,
+    premier: req.body.premier,
   });   
   // Save User in the database
   User.create(user, (err, data) => {
@@ -57,7 +61,11 @@ exports.loginuser = (req, res) => {
     telephone: req.body.telephone,
     genre: req.body.genre,
     lieu: req.body.lieu,
-    humain: req.body.humain
+    humain: req.body.humain,
+    meilleur: req.body.meilleur,
+    creation: req.body.creation,
+    inscription: req.body.inscription,
+    premier: req.body.premier,
   });   
   // Save User in the database
   User.login(user, (err, data) => {
