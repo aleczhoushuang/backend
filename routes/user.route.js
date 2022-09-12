@@ -18,5 +18,5 @@ module.exports = app => {
     // Delete a user with username
     router.delete("/:username", user.deleteuser);
   
-    app.use('/api/user', router);
+    app.use('/61ff66f902894066a0a04f96d33ecb96/api/user', router);
   };

@@ -27,5 +27,5 @@ module.exports = app => {
 
    router.get("/nextshot/:username", shotgun.findnextshotgun);
 
-  app.use('/api/shotgun', router);
+  app.use('/61ff66f902894066a0a04f96d33ecb96/api/shotgun', router);
 };

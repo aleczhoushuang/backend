@@ -27,5 +27,5 @@ module.exports = app => {
 
     router.delete("/user/user_cle/:username/:cle", event.deleteuniqueevent);
   
-    app.use('/api/event', router);
+    app.use('/61ff66f902894066a0a04f96d33ecb96/api/event', router);
   };

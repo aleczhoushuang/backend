@@ -171,7 +171,7 @@ Shotgun.findByUsername = (username, result) => {
 };
 
 Shotgun.findByNext = (username, result) => {
-  sql.query("SELECT shotgun.* FROM shotgun JOIN event ON shotgun.cle = event.cle WHERE event.username=? AND TIMEDIFF(shotgun.date_shotgun, NOW()) > 0 ORDER BY date_shotgun", username.substring(1), (err, res) => {
+  sql.query("SELECT shotgun.* FROM shotgun JOIN event ON shotgun.cle = event.cle WHERE event.username=? AND TIMEDIFF(shotgun.date_shotgun, LOCALTIME()) > 0 ORDER BY date_shotgun", username.substring(1), (err, res) => {
       if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -190,9 +190,10 @@ Shotgun.findByNext = (username, result) => {
 };
 
 Shotgun.getdate = (cle, result) => {
-  sql.query("SELECT NOW()", (err, res) => {
+  sql.query("SELECT CONVERT_TZ(NOW(),@@session.time_zone,'Europe/Paris')", (err, res) => {
     if (err) {
     result(null, res[0]);
+    console.log("date:" + res[0]);
     return;
     }
     result(null, res[0]);
